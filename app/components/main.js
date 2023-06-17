@@ -70,7 +70,7 @@ export default function Main({ price }) {
 		setItemName(item_name);
 		setItemQuantity(quantity);
 
-		console.log(quantity + " x " + item_name);
+		//console.log(quantity + " x " + item_name);
 	}
 
 	return (
