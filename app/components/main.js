@@ -3,9 +3,9 @@
 import { useState } from "react";
 
 export default function Main({ price }) {
-	const [itemName, setItemName] = useState("Salamis");
-	const [itemQuantity, setItemQuantity] = useState(8);
+	//separated into its own client side component to handle onclick and states
 
+	//random items to compare to, I must've be hungry when I wrote this
 	const items = [
 		{
 			id: 1,
@@ -61,17 +61,25 @@ export default function Main({ price }) {
 
 	function handleClick() {
 		//choose random item, get its price, divide it by 'price' and round it to 2dp
-		let item = items[Math.floor(Math.random() * items.length)];
-		let item_name = item.name;
+		let new_item = items[Math.floor(Math.random() * items.length)];
+
+		if (new_item.id === item.id) {
+			//rerun if chose same as previous item
+			console.log("snap!");
+			return handleClick();
+		}
+
+		//set new states
+		setItem(new_item);
+
+		//calc quantities compared to price of sol
 		let item_price = item.price;
 		let quantity = parseInt(price) / item_price;
 		quantity = Math.round((quantity + Number.EPSILON) * 100) / 100;
-
-		setItemName(item_name);
-		setItemQuantity(quantity);
-
-		//console.log(quantity + " x " + item_name);
 	}
+
+	//set initial item to first in items array
+	const [item, setItem] = useState(items[0]);
 
 	return (
 		<>
@@ -80,7 +88,7 @@ export default function Main({ price }) {
 				<span className="text-[#00FFA3] font-extrabold inline-block mx-1">
 					orrrr
 				</span>{" "}
-				{itemQuantity} {itemName}
+				{item.quantity} {item.name}
 			</p>
 			<button
 				onClick={handleClick}
